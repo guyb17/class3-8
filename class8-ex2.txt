@@ -1,0 +1,26 @@
+(applied_python)[gbutler@ip-172-30-0-194 djproject]$ python manage.py shell
+Python 2.7.12 (default, Sep  1 2016, 22:14:00)
+[GCC 4.8.3 20140911 (Red Hat 4.8.3-9)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from net_system.models import NetworkDevice
+>>> devices = NetworkDevice.objects.all()
+>>> for a_device in devices:
+...   if 'cisco' in a_device.device_type:
+...      a_device.vendor = 'Cisco'
+...   elif 'juniper' in a_device.device_type:
+...      a_device.vendor = 'Juniper'
+...   elif 'arista' in a_device.device_type:
+...      a_device.vendor = 'Arista'
+...   a_device.save()
+>>> for a_device in devices:
+...     print a_device, a_device.vendor
+...
+pynet-rtr1 Cisco
+pynet-rtr2 Cisco
+pynet-sw1 Arista
+pynet-sw2 Arista
+pynet-sw3 Arista
+pynet-sw4 Arista
+juniper-srx Juniper
+

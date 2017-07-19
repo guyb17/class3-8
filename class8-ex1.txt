@@ -1,0 +1,44 @@
+(applied_python)[gbutler@ip-172-30-0-194 djproject]$ python manage.py shell
+Python 2.7.12 (default, Sep  1 2016, 22:14:00)
+[GCC 4.8.3 20140911 (Red Hat 4.8.3-9)] on linux2
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from net_system.models import NetworkDevice, Credentials
+>>> devices = NetworkDevice.objects.all()
+>>> creds = Credentials.objects.all()
+>>> devices
+[<NetworkDevice: pynet-rtr1>, <NetworkDevice: pynet-rtr2>, <NetworkDevice: pynet-sw1>, <NetworkDevice: pynet-etworkDevice: pynet-sw3>, <NetworkDevice: pynet-sw4>, <NetworkDevice: juniper-srx>]
+>>> creds
+[<Credentials: pyclass>, <Credentials: admin1>]
+>>> type(devices)
+<class 'django.db.models.query.QuerySet'>
+>>> for a_device in devices:
+...   print a_device.device_name
+...
+pynet-rtr1
+pynet-rtr2
+pynet-sw1
+pynet-sw2
+pynet-sw3
+pynet-sw4
+juniper-srx
+>>> std_creds = creds[0]
+>>> arista_creds = creds[1]
+>>> for a_device in devices:
+...   if 'pynet-sw' in a_device.device_name:
+...     a_device.credentials = arista_creds
+...   else:
+...     a_device.credentials = std_creds
+...   a_device.save()
+...
+>>> for a_device in devices:
+...   print a_device, a_device.credentials
+...
+pynet-rtr1 pyclass
+pynet-rtr2 pyclass
+pynet-sw1 admin1
+pynet-sw2 admin1
+pynet-sw3 admin1
+pynet-sw4 admin1
+juniper-srx pyclass
+
